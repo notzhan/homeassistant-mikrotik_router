@@ -1600,7 +1600,7 @@ class MikrotikCoordinator(DataUpdateCoordinator[None]):
             try:
                 full_version = self.ds["fw-update"].get("installed-version")
                 # Capability checks in this integration are based on major/minor only.
-                version_match = re.search(r"(\d+)\.(\d+)(?:\.(\d+))?", str(full_version))
+                version_match = re.search(r"(\d+)\.(\d+)(?:\.\d+)?", str(full_version))
                 if not version_match:
                     raise ValueError(
                         f"Unsupported version format: {full_version}. "

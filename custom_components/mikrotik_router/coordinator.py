@@ -1599,10 +1599,12 @@ class MikrotikCoordinator(DataUpdateCoordinator[None]):
         if self.ds["fw-update"]["installed-version"] != "unknown":
             try:
                 full_version = self.ds["fw-update"].get("installed-version")
-                split_end = min(len(full_version), 4)
-                version = re.sub("[^0-9\\.]", "", full_version[0:split_end])
-                self.major_fw_version = int(version.split(".")[0])
-                self.minor_fw_version = int(version.split(".")[1])
+                version_match = re.search(r"(\d+)\.(\d+)", str(full_version))
+                if not version_match:
+                    raise ValueError(f"Unsupported version format: {full_version}")
+
+                self.major_fw_version = int(version_match.group(1))
+                self.minor_fw_version = int(version_match.group(2))
                 _LOGGER.debug(
                     "Mikrotik %s FW version major=%s minor=%s (%s)",
                     self.host,

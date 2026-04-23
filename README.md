@@ -170,7 +170,7 @@ This integration is distributed using [HACS](https://hacs.xyz/).
 You can find it under "Integrations", named "Mikrotik Router"
 
 Minimum requirements:
-* RouterOS v6.43/v7.1
+* RouterOS v6.43/v7.1+ (including v7.19.4)
 * Home Assistant 0.114.0
 
 ## Using Mikrotik development branch

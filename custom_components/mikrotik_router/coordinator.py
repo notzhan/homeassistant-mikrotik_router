@@ -1599,12 +1599,16 @@ class MikrotikCoordinator(DataUpdateCoordinator[None]):
         if self.ds["fw-update"]["installed-version"] != "unknown":
             try:
                 full_version = self.ds["fw-update"].get("installed-version")
+                if not isinstance(full_version, str):
+                    full_version = f"{full_version}"
+
                 # Capability checks in this integration are based on major/minor only.
-                version_match = re.search(r"(\d+)\.(\d+)", str(full_version))
+                version_match = re.search(r"(\d+)\.(\d+)", full_version)
                 if not version_match:
                     raise ValueError(
                         f"Unsupported version format: {full_version}. "
-                        "Expected format like X.Y or X.Y.Z."
+                        "Expected a version containing at least X.Y (for example "
+                        "'7.19.4' or 'v7.19.4')."
                     )
 
                 self.major_fw_version = int(version_match.group(1))
